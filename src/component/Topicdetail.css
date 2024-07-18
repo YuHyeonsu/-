@@ -1,0 +1,119 @@
+.Topicdetail-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f8f8f8;
+}
+
+.Topicdetail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    background-color: #fff;
+    border-bottom: 2px solid #936639;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.header-date {
+    font-size: 14px;
+    color: #aaa;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.Topicdetail-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.Topicdetail-details {
+    margin-top: 20px;
+}
+
+.Topicdetail-details h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.Topicdetail-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #888;
+}
+
+.author {
+    display: flex;
+    align-items: center;
+}
+
+.meta-info {
+    display: flex;
+    align-items: center;
+}
+
+.Topicdetail-category {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.Topicdetail {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.submit-rule-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #936639;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.Topicdetail-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border-top: 2px solid #936639;
+}
+
+.nav-button {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.discussion-button {
+    position: fixed; /* 버튼을 고정 위치에 설정 */
+    bottom: 70px; /* 화면의 아래에서 20px 위에 위치 */
+    right: 15px; /* 화면의 오른쪽에서 20px 왼쪽에 위치 */
+    width: auto; /* 버튼 너비를 자동으로 설정 */
+    margin: 0; /* 여백을 제거 */
+    padding: 10px 15px; /* 버튼의 내부 여백 설정 */
+    background-color: #936639; /* 배경 색상 */
+    color: white; /* 글자 색상 */
+    border: none; /* 테두리 제거 */
+    border-radius: 50px; /* 테두리 둥글게 */
+    font-size: 16px; /* 글자 크기 */
+    cursor: pointer; /* 커서 포인터로 설정 */
+    z-index: 1000; /* 버튼이 다른 요소 위에 오도록 설정 */
+}
