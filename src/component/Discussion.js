@@ -10,8 +10,8 @@ const Discussion = () => {
 
   const navigate = useNavigate();
 
-  const handleNavigate = (path) => {
-    navigate(path);
+  const handleNavigate = () => {
+    navigate(-1); // 이전 페이지로 이동
   };
 
   const toggleForm = () => {
@@ -38,7 +38,7 @@ const Discussion = () => {
   return (
     <div className="discussion">
       <div className="discussion-header">
-        <button className="back-button" onClick={() => handleNavigate("/home")}>
+        <button className="back-button" onClick={handleNavigate}>
           ←
         </button>
       </div>
