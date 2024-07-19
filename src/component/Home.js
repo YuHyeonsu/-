@@ -6,6 +6,7 @@ import mockData from "../mock.json";
 function Home() {
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("모두");
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -19,6 +20,10 @@ function Home() {
     setSortBy("popularity");
   };
 
+  const handleCategoryFilter = (category) => {
+    setCategoryFilter(category);
+  };
+
   const sortByLatest = (data) => {
     return [...data].sort(
       (a, b) => new Date(b.uploadDate) - new Date(a.uploadDate)
@@ -29,21 +34,32 @@ function Home() {
     return [...data].sort((a, b) => b.opinionsNumber - a.opinionsNumber);
   };
 
+  const filteredData = mockData.filter((topic) => {
+    if (categoryFilter === "모두") {
+      return true; // 모든 데이터를 보여줌
+    } else {
+      return topic.category === categoryFilter;
+    }
+  });
+
   const sortedTopics =
     sortBy === "latest"
-      ? sortByLatest(mockData)
+      ? sortByLatest(filteredData)
       : sortBy === "popularity"
-      ? sortByPopularity(mockData)
-      : mockData;
+      ? sortByPopularity(filteredData)
+      : filteredData;
 
   const topics = sortedTopics.map((topic) => (
-    <div
-      key={topic.id}
-      className="topic-item"
-      onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
-    >
-      <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
-      <p>{topic.title}</p>
+    <div key={topic.id} className="topic-item">
+      <div onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}>
+        <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
+      </div>
+      <div className="topic-info">
+        <p className="topic-title">{topic.title}</p>
+        <p className="opinions-number">
+          {topic.opinionsNumber}개의 국룰 제시됨
+        </p>
+      </div>
     </div>
   ));
 
@@ -51,7 +67,7 @@ function Home() {
     <div className="home-page">
       <header className="header">
         <img src="/logo2.png" alt="로고" className="logo2" />
-        <h3>홈</h3>
+        <h3>국룰대백과</h3>
         <div className="icons">
           <span
             className="search-icon"
@@ -79,10 +95,54 @@ function Home() {
           <div className="home-category">
             <h4>
               카테고리
-              <span className="home-category-item">문학, 책</span>
-              <span className="home-category-item">영화</span>
-              <span className="home-category-item">미술, 디자인</span>
-              <span className="home-category-item">공연</span>
+              <span
+                className={`home-category-item ${
+                  categoryFilter === "모두" ? "active" : ""
+                }`}
+                onClick={() => handleCategoryFilter("모두")}
+              >
+                모두
+              </span>
+              <span
+                className={`home-category-item ${
+                  categoryFilter === "학교" ? "active" : ""
+                }`}
+                onClick={() => handleCategoryFilter("학교")}
+              >
+                학교
+              </span>
+              <span
+                className={`home-category-item ${
+                  categoryFilter === "영화" ? "active" : ""
+                }`}
+                onClick={() => handleCategoryFilter("영화")}
+              >
+                영화
+              </span>
+              <span
+                className={`home-category-item ${
+                  categoryFilter === "데이트" ? "active" : ""
+                }`}
+                onClick={() => handleCategoryFilter("데이트")}
+              >
+                데이트
+              </span>
+              <span
+                className={`home-category-item ${
+                  categoryFilter === "공연" ? "active" : ""
+                }`}
+                onClick={() => handleCategoryFilter("공연")}
+              >
+                공연
+              </span>
+              <span
+                className={`home-category-item ${
+                  categoryFilter === "기타" ? "active" : ""
+                }`}
+                onClick={() => handleCategoryFilter("기타")}
+              >
+                기타
+              </span>
             </h4>
           </div>
           <div>{topics}</div>

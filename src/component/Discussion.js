@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Discussion.css";
 
 const Discussion = () => {
@@ -6,6 +7,12 @@ const Discussion = () => {
   const [showForm, setShowForm] = useState(false);
   const [newOpinion, setNewOpinion] = useState("");
   const [additionalContent, setAdditionalContent] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
 
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -30,9 +37,15 @@ const Discussion = () => {
 
   return (
     <div className="discussion">
+      <div className="discussion-header">
+        <button className="back-button" onClick={() => handleNavigate("/home")}>
+          ←
+        </button>
+      </div>
       <button className="opinion-button" onClick={toggleForm}>
         + 국룰 제시하기
       </button>
+
       {showForm && (
         <form onSubmit={handleOpinionSubmit}>
           <input
