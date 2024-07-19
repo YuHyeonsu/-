@@ -20,7 +20,12 @@ function Mypage() {
       onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
     >
       <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
-      <p>{topic.title}</p>
+      <div className="topic-info">
+        <p className="topic-title">{topic.title}</p>
+        <p className="opinions-number">
+          {topic.opinionsNumber}개의 국룰 제시됨
+        </p>
+      </div>
     </div>
   ));
 
@@ -32,11 +37,16 @@ function Mypage() {
       onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
     >
       <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
-      <p>{topic.title}</p>
+      <div className="topic-info">
+        <p className="topic-title">{topic.title}</p>
+        <p className="opinions-number">
+          {topic.opinionsNumber}개의 국룰 제시됨
+        </p>
+      </div>
     </div>
   ));
 
-  // 모든 투표 주제 데이터 (가상의 데이터로 가정)
+  // 모든 투표 주제 데이터
   const allVotedTopics = mockData.map((topic) => (
     <div
       key={topic.id}
@@ -44,11 +54,16 @@ function Mypage() {
       onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
     >
       <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
-      <p>{topic.title}</p>
+      <div className="topic-info">
+        <p className="topic-title">{topic.title}</p>
+        <p className="opinions-number">
+          {topic.opinionsNumber}개의 국룰 제시됨
+        </p>
+      </div>
     </div>
   ));
 
-  // 최대 3개의 투표 주제 데이터 (가상의 데이터로 가정)
+  // 최대 3개의 투표 주제 데이터
   const limitedVotedTopics = mockData.slice(0, 3).map((topic) => (
     <div
       key={topic.id}
@@ -56,7 +71,12 @@ function Mypage() {
       onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
     >
       <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
-      <p>{topic.title}</p>
+      <div className="topic-info">
+        <p className="topic-title">{topic.title}</p>
+        <p className="opinions-number">
+          {topic.opinionsNumber}개의 국룰 제시됨
+        </p>
+      </div>
     </div>
   ));
 

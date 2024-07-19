@@ -16,8 +16,15 @@ function Dictionary() {
       className="topic-item"
       onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
     >
-      <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
-      <p>{topic.title}</p>
+      <div>
+        <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
+      </div>
+      <div className="topic-info">
+        <p className="topic-title">{topic.title}</p>
+        <p className="opinions-number">
+          {topic.opinionsNumber}개의 국룰 제시됨
+        </p>
+      </div>
     </div>
   ));
 

@@ -1,5 +1,3 @@
-/* Discussion.css */
-
 .discussion {
   display: flex;
   flex-direction: column; /* 컨테이너 요소를 세로 방향으로 정렬 */
@@ -10,21 +8,24 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative; /* 부모 요소에 상대적 위치 설정 */
 }
 
 .discussion-header {
   display: flex;
-  justify-content: center; /* 가운데 정렬 */
+  justify-content: flex-start; /* 왼쪽 정렬로 변경 */
   align-items: center;
-  padding: 10px;
+  padding: 20px;
   background-color: #fff;
-  border-bottom: 2px solid #936639;
-  position: relative;
+  border-bottom: 3px solid #936639;
+  position: absolute; /* 절대적 위치 설정을 위해 변경 */
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: 30px; /* 여백 추가 */
 }
 
 .back-button {
-  position: absolute;
-  left: 10px;
   background: none;
   border: none;
   font-size: 24px;
@@ -40,6 +41,7 @@
   border-radius: 10px;
   cursor: pointer;
   margin-bottom: 20px;
+  margin-top: 40px; /* 여백 추가 */
 }
 
 form {

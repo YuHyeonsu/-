@@ -50,8 +50,12 @@ function Home() {
       : filteredData;
 
   const topics = sortedTopics.map((topic) => (
-    <div key={topic.id} className="topic-item">
-      <div onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}>
+    <div
+      key={topic.id}
+      className="topic-item"
+      onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
+    >
+      <div>
         <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
       </div>
       <div className="topic-info">
