@@ -1,14 +1,25 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "./Discussion.css";
+import mockData from "../mock.json"; // mock 데이터 가져오기
 
 const Discussion = () => {
   const [opinions, setOpinions] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [newOpinion, setNewOpinion] = useState("");
   const [additionalContent, setAdditionalContent] = useState("");
+  const [topicTitle, setTopicTitle] = useState(""); // 토픽 제목 상태 추가
 
   const navigate = useNavigate();
+  const { id } = useParams(); // URL 파라미터에서 토픽의 ID 가져오기
+
+  useEffect(() => {
+    // id가 변할 때마다 해당 토픽의 title을 가져와 상태에 설정
+    const topic = mockData.find((topic) => topic.id === parseInt(id));
+    if (topic) {
+      setTopicTitle(topic.title);
+    }
+  }, [id]);
 
   const handleNavigate = () => {
     navigate(-1); // 이전 페이지로 이동
@@ -41,11 +52,15 @@ const Discussion = () => {
         <button className="back-button" onClick={handleNavigate}>
           ←
         </button>
+        <div className="centered">
+          <div className="topic-title">{topicTitle}</div>
+          <div>토론방</div>
+        </div>
       </div>
+
       <button className="opinion-button" onClick={toggleForm}>
         + 국룰 제시하기
       </button>
-
       {showForm && (
         <form onSubmit={handleOpinionSubmit}>
           <input

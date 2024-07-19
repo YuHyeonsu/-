@@ -95,6 +95,10 @@ function Mypage() {
     setShowAllVotedTopics(!showAllVotedTopics);
   };
 
+  const handleLogout = () => {
+    navigate("/");
+  };
+
   return (
     <div className="my-page">
       <header className="header">
@@ -120,7 +124,9 @@ function Mypage() {
           <div className="profile-text">
             <h2>
               홍길동
-              <button className="logout-button">로그아웃</button>
+              <button className="logout-button" onClick={handleLogout}>
+                로그아웃
+              </button>
             </h2>
             <span className="status">• 전설</span>
           </div>

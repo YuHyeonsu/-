@@ -1,26 +1,28 @@
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom"; // useParams 추가
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "./Topicdetail.css";
 import mockData from "../mock.json";
 
 function Topicdetail() {
   const navigate = useNavigate();
-  const { id } = useParams(); // URL 파라미터에서 id 가져오기
-
-  const handleNavigate = (path) => {
-    navigate(path);
-  };
+  const { id } = useParams();
+  const [showDiscussion, setShowDiscussion] = useState(false);
 
   const topic = mockData.find((topic) => topic.id === parseInt(id));
 
   if (!topic) {
-    return <div>해당하는 토픽을 찾을 수 없습니다.</div>; // 예외 처리: 토픽이 없는 경우
+    return <div>해당하는 토픽을 찾을 수 없습니다.</div>;
   }
+
+  // 토론방으로 이동 버튼을 클릭할 때 실행될 함수
+  const handleNavigateToDiscussion = () => {
+    navigate(`/discussion/${topic.id}`); // 해당 토픽의 ID를 이용해 URL 생성
+  };
 
   return (
     <div className="Topicdetail-page">
       <header className="Topicdetail-header">
-        <button className="back-button" onClick={() => handleNavigate("/home")}>
+        <button className="back-button" onClick={() => navigate("/home")}>
           ←
         </button>
       </header>
@@ -47,26 +49,23 @@ function Topicdetail() {
           ></textarea>
         </div>
       </main>
+
+      {/* 토론방으로 이동 버튼을 클릭하면 Discussion 페이지로 이동 */}
       <button
         className="discussion-button"
-        onClick={() => handleNavigate("/discussion")}
+        onClick={handleNavigateToDiscussion}
       >
         토론방으로 이동
       </button>
+
       <footer className="footer">
-        <button
-          className="nav-button"
-          onClick={() => handleNavigate("/dictionary")}
-        >
+        <button className="nav-button" onClick={() => navigate("/dictionary")}>
           📚
         </button>
-        <button className="nav-button" onClick={() => handleNavigate("/home")}>
+        <button className="nav-button" onClick={() => navigate("/home")}>
           🏠
         </button>
-        <button
-          className="nav-button"
-          onClick={() => handleNavigate("/mypage")}
-        >
+        <button className="nav-button" onClick={() => navigate("/mypage")}>
           👤
         </button>
       </footer>

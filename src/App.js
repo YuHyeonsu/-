@@ -24,7 +24,7 @@ const App = () => {
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/topicdetail/:id" element={<Topicdetail />} />
-            <Route path="/discussion" element={<Discussion />} />
+            <Route path="/discussion/:id" element={<Discussion />} />
             <Route path="/search" element={<Search />} />
           </Routes>
         </div>

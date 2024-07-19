@@ -71,7 +71,7 @@ function Home() {
     <div className="home-page">
       <header className="header">
         <img src="/logo2.png" alt="로고" className="logo2" />
-        <h3>국룰대백과</h3>
+        <h3>홈</h3>
         <div className="icons">
           <span
             className="search-icon"

@@ -1,28 +1,15 @@
-.discussion {
-  display: flex;
-  flex-direction: column; /* 컨테이너 요소를 세로 방향으로 정렬 */
-  align-items: center; /* 자식 요소들을 중앙 정렬 */
-  width: 80%;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  position: relative; /* 부모 요소에 상대적 위치 설정 */
-}
-
 .discussion-header {
   display: flex;
-  justify-content: flex-start; /* 왼쪽 정렬로 변경 */
+  justify-content: center;
   align-items: center;
   padding: 20px;
   background-color: #fff;
   border-bottom: 3px solid #936639;
-  position: absolute; /* 절대적 위치 설정을 위해 변경 */
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  margin-bottom: 30px; /* 여백 추가 */
+  text-align: center;
 }
 
 .back-button {
@@ -30,10 +17,26 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
+  margin-right: 20px;
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.topic-title {
+  margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .opinion-button {
-  width: auto; /* 버튼 너비를 자동으로 설정 */
+  display: block;
+  margin: 0 auto;
+  width: auto;
   padding: 10px;
   font-size: 20px;
   color: black;
@@ -41,7 +44,7 @@
   border-radius: 10px;
   cursor: pointer;
   margin-bottom: 20px;
-  margin-top: 40px; /* 여백 추가 */
+  margin-top: 130px;
 }
 
 form {
