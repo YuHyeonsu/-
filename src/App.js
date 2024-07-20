@@ -10,6 +10,7 @@ import Register from "./component/Register";
 import Topicdetail from "./component/Topicdetail";
 import Discussion from "./component/Discussion";
 import Search from "./component/Search";
+import DictionaryDetail from "./component/DictionaryDetail";
 
 const App = () => {
   return (
@@ -26,6 +27,10 @@ const App = () => {
             <Route path="/topicdetail/:id" element={<Topicdetail />} />
             <Route path="/discussion/:id" element={<Discussion />} />
             <Route path="/search" element={<Search />} />
+            <Route
+              path="/dictionarydetail/:id"
+              element={<DictionaryDetail />}
+            />
           </Routes>
         </div>
       </div>

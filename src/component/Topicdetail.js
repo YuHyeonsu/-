@@ -12,7 +12,7 @@ function Topicdetail() {
   const [showForm, setShowForm] = useState(false);
   const [newOpinion, setNewOpinion] = useState("");
   const [additionalContent, setAdditionalContent] = useState("");
-  const [newCommentText, setNewCommentText] = useState(""); // New state for comment text
+  const [commentInputs, setCommentInputs] = useState({}); // State to manage comment inputs
 
   if (!topic) {
     return <div>해당하는 토픽을 찾을 수 없습니다.</div>;
@@ -49,6 +49,13 @@ function Topicdetail() {
     setOpinions(updatedOpinions);
   };
 
+  const handleCommentInputChange = (opinionId, value) => {
+    setCommentInputs({
+      ...commentInputs,
+      [opinionId]: value,
+    });
+  };
+
   const handleCommentSubmit = (opinionId, commentText) => {
     const updatedOpinions = opinions.map((opinion) => {
       if (opinion.id === opinionId) {
@@ -68,7 +75,10 @@ function Topicdetail() {
     });
 
     setOpinions(updatedOpinions);
-    setNewCommentText("");
+    setCommentInputs({
+      ...commentInputs,
+      [opinionId]: "",
+    });
   };
 
   return (
@@ -133,8 +143,9 @@ function Topicdetail() {
                   </p>
                 )}
                 <p className="date">{opinion.date}</p>
+                <span> 💬 {opinion.comments.length}</span> {/* 댓글 수 표시 */}
                 <button onClick={() => handleToggleComments(opinion.id)}>
-                  댓글 보기
+                  {opinion.showComments ? "댓글 숨기기" : "댓글 보기"}
                 </button>
                 {opinion.showComments && opinion.comments.length > 0 && (
                   <div className="comments">
@@ -149,13 +160,15 @@ function Topicdetail() {
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    handleCommentSubmit(opinion.id, newCommentText);
+                    handleCommentSubmit(opinion.id, commentInputs[opinion.id]);
                   }}
                 >
                   <input
                     type="text"
-                    value={newCommentText}
-                    onChange={(e) => setNewCommentText(e.target.value)}
+                    value={commentInputs[opinion.id] || ""}
+                    onChange={(e) =>
+                      handleCommentInputChange(opinion.id, e.target.value)
+                    }
                     placeholder="댓글을 입력하세요."
                     className="comment-input"
                   />

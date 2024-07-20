@@ -14,7 +14,7 @@ function Dictionary() {
     <div
       key={topic.id}
       className="topic-item"
-      onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
+      onClick={() => handleNavigate(`/dictionarydetail/${topic.id}`)}
     >
       <div>
         <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
