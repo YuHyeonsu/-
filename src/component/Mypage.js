@@ -4,6 +4,15 @@ import axios from 'axios';
 import "./Mypage.css";
 
 function Mypage() {
+
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    // 로컬 스토리지에서 user_id 가져오기
+    const storedUserId = localStorage.getItem('user_id');
+    setUserId(storedUserId);
+  }, []);
+
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
   const [registeredTopics, setRegisteredTopics] = useState([]);
@@ -115,6 +124,8 @@ function Mypage() {
           <div className="profile-text">
             <h2>
               {/* {user_id} */}
+              {userId}
+
               <button className="logout-button" onClick={handleLogout}>
                 로그아웃
               </button>
