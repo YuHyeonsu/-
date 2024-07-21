@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // useNavigate 임포트
+import { useNavigate } from "react-router-dom";
 import "./Signup.css";
+import axios from "axios";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -8,8 +9,9 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [first_name, setFirst_name] = useState("");
+  const [error, setError] = useState("");
 
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,18 +36,43 @@ const Signup = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // 여기서 회원가입 로직을 구현
+
+    if (password !== password2) {
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://192.168.0.12:8000/api/v1/users/signup/', {
+        username,
+        email,
+        password,
+        password2,
+        first_name,
+      });
+
+      if (response.status === 201) {
+        navigate('/');
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        console.error('Error response:', error.response.data);
+        setError(`회원가입 실패: ${JSON.stringify(error.response.data)}`);
+      } else {
+        console.error('Error during signup:', error);
+        setError("회원가입에 실패했습니다. 다시 시도해주세요.");
+      }
+    }
   };
 
   const handleGoBack = () => {
-    navigate(-1); // 뒤로가기 기능
+    navigate(-1);
   };
 
   return (
     <div className="signup-page">
-      {/* 뒤로가기 버튼 */}
       <header className="Signup-header">
         <button className="back-button" onClick={handleGoBack}>
           ←
@@ -105,6 +132,7 @@ const Signup = () => {
           />
         </label>
         <br />
+        {error && <p className="error">{error}</p>}
         <div className="container">
           <button type="submit" className="signbutton">
             회원가입 완료
