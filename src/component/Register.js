@@ -10,6 +10,7 @@ function Register() {
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('');
     const [image, setImage] = useState(null);
+    const [error, setError] = useState('');
 
     const handleNavigate = (path) => {
         navigate(path);
@@ -42,7 +43,7 @@ function Register() {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post(
-                'http://192.168.0.12:8000/api/v1/topics/new_topic/',
+                'http://192.168.0.12:8000/api/v1/topics/new_topic',
                 formData,
                 {
                     headers: {
@@ -55,7 +56,14 @@ function Register() {
                 setAlertVisible(true);
             }
         } catch (error) {
-            console.error('Error registering topic:', error);
+            if (error.response && error.response.data) {
+                // 서버에서 반환된 에러 메시지 출력
+                console.error('Error response:', error.response.data);
+                setError(`등록 실패: ${JSON.stringify(error.response.data)}`);
+            } else {
+                console.error('Error registering topic:', error);
+                setError('등록에 실패했습니다. 다시 시도해주세요.');
+            }
         }
     };
 
@@ -100,6 +108,7 @@ function Register() {
                     </div>
                     <div className='register-category-notice'>{category === '' ? '카테고리 선택 안 함' : `선택된 카테고리: ${category}`}</div>
                 </div>
+                {error && <p className="error">{error}</p>}
                 <button className='submit-button' onClick={handleSubmit}>등록하기</button>
             </main>
             <footer className='footer'>
