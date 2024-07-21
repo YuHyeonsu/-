@@ -3,9 +3,20 @@
   text-align: center;
 }
 
-.login-page h1 {
-  margin-bottom: 40px;
-  text-align: center;
+.Signup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px;
+  background-color: #fff;
+  border-bottom: 2px solid #936639;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 form {

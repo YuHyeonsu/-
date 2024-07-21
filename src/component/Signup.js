@@ -1,18 +1,21 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // useNavigate 임포트
 import "./Signup.css";
 
 const Signup = () => {
-  const [id, setId] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const [firstname, setFirstname] = useState("");
+  const [first_name, setFirst_name] = useState("");
+
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
-      case "id":
-        setId(value);
+      case "username":
+        setUsername(value);
         break;
       case "email":
         setEmail(value);
@@ -23,8 +26,8 @@ const Signup = () => {
       case "password2":
         setPassword2(value);
         break;
-      case "firstname":
-        setFirstname(value);
+      case "first_name":
+        setFirst_name(value);
         break;
       default:
         break;
@@ -33,11 +36,21 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 여기서 회원가입 로직을 구현하면 됩니다.
+    // 여기서 회원가입 로직을 구현
+  };
+
+  const handleGoBack = () => {
+    navigate(-1); // 뒤로가기 기능
   };
 
   return (
     <div className="signup-page">
+      {/* 뒤로가기 버튼 */}
+      <header className="Signup-header">
+        <button className="back-button" onClick={handleGoBack}>
+          ←
+        </button>
+      </header>
       <div className="img-container">
         <img src="/logo.png" alt="이미지 설명" />
       </div>
@@ -45,9 +58,9 @@ const Signup = () => {
         <label>
           <input
             type="text"
-            name="id"
+            name="username"
             placeholder="아이디"
-            value={id}
+            value={username}
             onChange={handleChange}
           />
         </label>
@@ -84,10 +97,10 @@ const Signup = () => {
         <br />
         <label>
           <input
-            type="firstname"
-            name="firstname"
+            type="text"
+            name="first_name"
             placeholder="이름"
-            value={firstname}
+            value={first_name}
             onChange={handleChange}
           />
         </label>
