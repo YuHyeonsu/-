@@ -42,7 +42,7 @@ function Register() {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post(
-                'http://192.168.0.12:8000/api/v1/topics/new_topic',
+                'http://192.168.0.12:8000/api/v1/topics/new_topic/',
                 formData,
                 {
                     headers: {

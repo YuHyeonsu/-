@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import "./Mypage.css";
 
 function Mypage() {
   const navigate = useNavigate();
-  const { user_id } = useParams();
   const [userData, setUserData] = useState({});
   const [registeredTopics, setRegisteredTopics] = useState([]);
   const [votedTopics, setVotedTopics] = useState([]);
@@ -18,7 +17,7 @@ function Mypage() {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://192.168.0.12:8000/api/v1/users/profile/${user_id}/`, {
+        const response = await axios.get('http://192.168.0.12:8000/api/v1/users/profile/', {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -34,7 +33,7 @@ function Mypage() {
     };
 
     fetchData();
-  }, [user_id]);
+  }, []);
 
   const handleNavigate = (path) => {
     navigate(path);

@@ -74,7 +74,7 @@ function Home() {
       onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
     >
       <div>
-        <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
+        <img src={topic.image} alt='' className="topic-image" />
       </div>
       <div className="topic-info">
         <p className="topic-title">{topic.title}</p>
