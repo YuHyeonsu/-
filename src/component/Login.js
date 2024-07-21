@@ -14,10 +14,15 @@ const Login = () => {
         name === 'username' ? setUsername(value) : setPassword(value);
     };
 
+    const handleSignUp = () => {
+        // 회원가입 페이지로 이동
+        navigate("/signup");
+      };
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-
         try {
             const response = await axios.post('http://192.168.0.12:8000/api/v1/users/login/', {
                 username,
@@ -34,6 +39,8 @@ const Login = () => {
             // 저장된 값 확인
             console.log('Token stored:', localStorage.getItem('token'));
             console.log('User ID stored:', localStorage.getItem('user_id'));
+
+            
 
             // 로그인 성공 시 페이지 이동
             navigate('/start');
@@ -72,6 +79,9 @@ const Login = () => {
                 {error && <p className="error">{error}</p>}
                 <div className="container">
                     <button type="submit" className="loginbutton">로그인</button>
+                    <button type="button" className="signbutton" onClick={handleSignUp}>
+            회원가입
+          </button>
                 </div>
             </form>
         </div>

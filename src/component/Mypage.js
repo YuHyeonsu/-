@@ -114,7 +114,7 @@ function Mypage() {
           />
           <div className="profile-text">
             <h2>
-              {/* {userData.user_id} */}
+              {/* {user_id} */}
               <button className="logout-button" onClick={handleLogout}>
                 로그아웃
               </button>
