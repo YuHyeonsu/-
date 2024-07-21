@@ -1,28 +1,40 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        name === 'email' ? setEmail(value) : setPassword(value);
+        name === 'username' ? setUsername(value) : setPassword(value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
 
-        // 가상 로그인
-        const isLoggedIn = email === 'multi@naver.com' && password === '12345';
+        try {
+            const response = await axios.post('http://192.168.0.12:8000/api/v1/users/login/', {
+                username,
+                password
+            });
 
-        if (isLoggedIn) {
-            // alert('로그인 성공!');
-            navigate('/start'); // 로그인 후 이동할 페이지 경로 적으면 될 듯 !
-        } else {
-            //   alert('로그인 실패. 다시 시도해주세요.');
+            const { token } = response.data; // 서버 응답에서 토큰 추출
+            console.log('Login successful:', token);
+
+            // 토큰을 로컬 스토리지에 저장
+            localStorage.setItem('token', token);
+
+            // 로그인 성공 시 페이지 이동
+            navigate('/start');
+        } catch (error) {
+            console.error('There was an error logging in!', error);
+            setError('로그인 실패. 다시 시도해주세요.');
         }
     };
 
@@ -31,14 +43,13 @@ const Login = () => {
             <div className="img-container">
                 <img src='/logo.png' alt="이미지 설명" />
             </div>
-            {/* <h1>국룰대백과</h1> */}
             <form onSubmit={handleSubmit}>
                 <label>
                     <input
-                        type="email"
-                        name="email"
-                        placeholder="아이디"  // placeholder 추가
-                        value={email}
+                        type="text"
+                        name="username"
+                        placeholder="아이디"
+                        value={username}
                         onChange={handleChange}
                     />
                 </label>
@@ -47,12 +58,13 @@ const Login = () => {
                     <input
                         type="password"
                         name="password"
-                        placeholder="비밀번호"  // placeholder 추가
+                        placeholder="비밀번호"
                         value={password}
                         onChange={handleChange}
                     />
                 </label>
                 <br />
+                {error && <p className="error">{error}</p>}
                 <div className="container">
                     <button type="submit" className="loginbutton">로그인</button>
                 </div>
