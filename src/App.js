@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./component/Login";
+import Signup from "./component/Signup";
 import Home from "./component/Home";
 import Start from "./component/Start";
 import Dictionary from "./component/Dictionary";
@@ -19,6 +20,7 @@ const App = () => {
         <div className="content">
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/start" element={<Start />} />
             <Route path="/home" element={<Home />} />
             <Route path="/dictionary" element={<Dictionary />} />
