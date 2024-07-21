@@ -1,12 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
-import mockData from "../mock.json";
+import axios from 'axios';
 
 function Home() {
   const navigate = useNavigate();
+  const [topics, setTopics] = useState([]);
   const [sortBy, setSortBy] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("모두");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://192.168.0.12:8000/api/v1/topics/');
+        setTopics(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError('데이터를 가져오는데 실패했습니다.');
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -34,7 +52,7 @@ function Home() {
     return [...data].sort((a, b) => b.opinionsNumber - a.opinionsNumber);
   };
 
-  const filteredData = mockData.filter((topic) => {
+  const filteredData = topics.filter((topic) => {
     if (categoryFilter === "모두") {
       return true; // 모든 데이터를 보여줌
     } else {
@@ -49,7 +67,7 @@ function Home() {
       ? sortByPopularity(filteredData)
       : filteredData;
 
-  const topics = sortedTopics.map((topic) => (
+  const topicItems = sortedTopics.map((topic) => (
     <div
       key={topic.id}
       className="topic-item"
@@ -66,6 +84,14 @@ function Home() {
       </div>
     </div>
   ));
+
+  if (loading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="home-page">
@@ -149,7 +175,7 @@ function Home() {
               </span>
             </h4>
           </div>
-          <div>{topics}</div>
+          <div>{topicItems}</div>
         </section>
       </main>
       <button

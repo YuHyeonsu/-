@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import "./Dictionary.css";
-import mockData from "../mock.json";
 
 function Dictionary() {
   const navigate = useNavigate();
+  const [topics, setTopics] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://192.168.0.12:8000/api/v1/dictionaries/');
+        setTopics(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError('데이터를 가져오는데 실패했습니다.');
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleNavigate = (path) => {
     navigate(path);
   };
 
-  const topics = mockData.map((topic) => (
+  const topicItems = topics.map((topic) => (
     <div
       key={topic.id}
       className="topic-item"
@@ -27,6 +45,14 @@ function Dictionary() {
       </div>
     </div>
   ));
+
+  if (loading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="dictionary-page">
@@ -58,7 +84,7 @@ function Dictionary() {
             <span className="dictionary-category-item">기타</span>
           </div>
           <br />
-          <div>{topics}</div>
+          <div>{topicItems}</div>
         </section>
       </main>
       <footer className="footer">

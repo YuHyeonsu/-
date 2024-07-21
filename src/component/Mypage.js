@@ -1,91 +1,52 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from 'axios';
 import "./Mypage.css";
-import mockData from "../mock.json";
 
 function Mypage() {
   const navigate = useNavigate();
+  const { user_id } = useParams();
+  const [userData, setUserData] = useState({});
+  const [registeredTopics, setRegisteredTopics] = useState([]);
+  const [votedTopics, setVotedTopics] = useState([]);
   const [showAllRegisteredTopics, setShowAllRegisteredTopics] = useState(false);
   const [showAllVotedTopics, setShowAllVotedTopics] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`http://192.168.0.12:8000/api/v1/users/profile/${user_id}/`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setUserData(response.data.user);
+        setRegisteredTopics(response.data.registered_topics);
+        setVotedTopics(response.data.voted_topics);
+        setLoading(false);
+      } catch (error) {
+        setError('데이터를 가져오는데 실패했습니다.');
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [user_id]);
 
   const handleNavigate = (path) => {
     navigate(path);
   };
 
-  // 모든 등록 주제 데이터
-  const allRegisteredTopics = mockData.map((topic) => (
-    <div
-      key={topic.id}
-      className="topic-item"
-      onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
-    >
-      <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
-      <div className="topic-info">
-        <p className="topic-title">{topic.title}</p>
-        <p className="opinions-number">
-          {topic.opinionsNumber}개의 국룰 제시됨
-        </p>
-      </div>
-    </div>
-  ));
-
-  // 최대 3개의 등록 주제 데이터
-  const limitedRegisteredTopics = mockData.slice(0, 3).map((topic) => (
-    <div
-      key={topic.id}
-      className="topic-item"
-      onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
-    >
-      <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
-      <div className="topic-info">
-        <p className="topic-title">{topic.title}</p>
-        <p className="opinions-number">
-          {topic.opinionsNumber}개의 국룰 제시됨
-        </p>
-      </div>
-    </div>
-  ));
-
-  // 모든 투표 주제 데이터
-  const allVotedTopics = mockData.map((topic) => (
-    <div
-      key={topic.id}
-      className="topic-item"
-      onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
-    >
-      <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
-      <div className="topic-info">
-        <p className="topic-title">{topic.title}</p>
-        <p className="opinions-number">
-          {topic.opinionsNumber}개의 국룰 제시됨
-        </p>
-      </div>
-    </div>
-  ));
-
-  // 최대 3개의 투표 주제 데이터
-  const limitedVotedTopics = mockData.slice(0, 3).map((topic) => (
-    <div
-      key={topic.id}
-      className="topic-item"
-      onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
-    >
-      <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
-      <div className="topic-info">
-        <p className="topic-title">{topic.title}</p>
-        <p className="opinions-number">
-          {topic.opinionsNumber}개의 국룰 제시됨
-        </p>
-      </div>
-    </div>
-  ));
-
   const registeredTopicsToDisplay = showAllRegisteredTopics
-    ? allRegisteredTopics
-    : limitedRegisteredTopics;
+    ? registeredTopics
+    : registeredTopics.slice(0, 3);
+  
   const votedTopicsToDisplay = showAllVotedTopics
-    ? allVotedTopics
-    : limitedVotedTopics;
+    ? votedTopics
+    : votedTopics.slice(0, 3);
 
   const toggleShowAllRegisteredTopics = () => {
     setShowAllRegisteredTopics(!showAllRegisteredTopics);
@@ -96,8 +57,18 @@ function Mypage() {
   };
 
   const handleLogout = () => {
+    // 로그아웃 로직 추가
+    localStorage.removeItem('token'); // 토큰 삭제
     navigate("/");
   };
+
+  if (loading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="my-page">
@@ -117,18 +88,18 @@ function Mypage() {
       <main className="main-content">
         <section className="profile-section">
           <img
-            src="/profile.png"
+            src={userData.profileImg || "/profile.png"}
             alt="프로필 이미지"
             className="profile-image"
           />
           <div className="profile-text">
             <h2>
-              홍길동
+              {userData.username}
               <button className="logout-button" onClick={handleLogout}>
                 로그아웃
               </button>
             </h2>
-            <span className="status">• 전설</span>
+            <span className="status">• {userData.status}</span>
           </div>
         </section>
         <section className="topic-section">
@@ -138,7 +109,23 @@ function Mypage() {
               {showAllRegisteredTopics ? "간략히 보기" : "전체 보기"}
             </span>
           </h2>
-          <div>{registeredTopicsToDisplay}</div>
+          <div>
+            {registeredTopicsToDisplay.map((topic) => (
+              <div
+                key={topic.id}
+                className="topic-item"
+                onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
+              >
+                <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
+                <div className="topic-info">
+                  <p className="topic-title">{topic.title}</p>
+                  <p className="opinions-number">
+                    {topic.opinionsNumber}개의 국룰 제시됨
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
         <section className="topic-section">
           <br />
@@ -148,7 +135,23 @@ function Mypage() {
               {showAllVotedTopics ? "간략히 보기" : "전체 보기"}
             </span>
           </h2>
-          <div>{votedTopicsToDisplay}</div>
+          <div>
+            {votedTopicsToDisplay.map((topic) => (
+              <div
+                key={topic.id}
+                className="topic-item"
+                onClick={() => handleNavigate(`/topicdetail/${topic.id}`)}
+              >
+                <img src={topic.imgUrl} alt={topic.title} className="topic-image" />
+                <div className="topic-info">
+                  <p className="topic-title">{topic.title}</p>
+                  <p className="opinions-number">
+                    {topic.opinionsNumber}개의 국룰 제시됨
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
       </main>
       <footer className="footer">
